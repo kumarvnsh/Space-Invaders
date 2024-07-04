@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Header/GraphicService.h"
 #include "Header/GameService.h"
 
 //class Player {
@@ -81,16 +82,14 @@ int main() {
     //    window.display(); // Display what was drawn
     //}
 
-    //return 0;
+    GameService* game_service = new GameService();
+    game_service->Ignite();
 
-    GameService game_service; //create object
-    game_service.Ignite(); // this will 'ignite' or start the flow of our game
-
-    // while the game is running we will update the game loop
-    while (game_service.isRunning())
-    {
-        game_service.update();
-        game_service.render();
+    while (game_service->isRunning()) {
+        game_service->update();
+        game_service->render();
     }
+
+    delete game_service;
     return 0;
 }

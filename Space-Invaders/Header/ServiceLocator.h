@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GraphicService.h"
+
 class ServiceLocator {
 public:
     // Public methods
@@ -7,13 +9,17 @@ public:
     void initialize();
     void update();
     void render();
+    GraphicService* getGraphicService();
+    void clearAllServices();
 
 private:
     // Private methods
     ServiceLocator(); // Constructor
     ~ServiceLocator(); // Destructor
     void createServices();
-    void clearAllServices();
+
+    // Private properties
+    GraphicService* graphicService;
 
     // Singleton instance
     static ServiceLocator* instance;

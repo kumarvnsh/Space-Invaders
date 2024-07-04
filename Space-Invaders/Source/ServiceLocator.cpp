@@ -5,17 +5,13 @@ ServiceLocator* ServiceLocator::instance = nullptr;
 
 // Constructor
 ServiceLocator::ServiceLocator() {
-    // Empty definition
-    // This constructor should set up initial states or configurations
+    graphicService = new GraphicService();
 }
 
 // Destructor
 ServiceLocator::~ServiceLocator() {
-    // Empty definition
-    // This destructor should clean up resources
+    delete graphicService;
 }
-
-// Public methods
 
 // Singleton instance getter
 ServiceLocator* ServiceLocator::getInstance() {
@@ -26,28 +22,25 @@ ServiceLocator* ServiceLocator::getInstance() {
 }
 
 void ServiceLocator::initialize() {
-    // Empty definition
-    // This method should initialize all services
+    graphicService->initialize();
 }
 
 void ServiceLocator::update() {
-    // Empty definition
-    // This method should update all services
+    graphicService->update();
 }
 
 void ServiceLocator::render() {
-    // Empty definition
-    // This method should render all services
+    graphicService->render();
 }
 
-// Private methods
+GraphicService* ServiceLocator::getGraphicService() {
+    return graphicService;
+}
 
 void ServiceLocator::createServices() {
-    // Empty definition
-    // This method should create and register all services
+    // Additional services can be created and initialized here
 }
 
 void ServiceLocator::clearAllServices() {
-    // Empty definition
-    // This method should clear and deregister all services
+    // Clear or deregister services if needed
 }

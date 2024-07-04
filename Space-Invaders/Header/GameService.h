@@ -1,6 +1,6 @@
-// Header/GameService.h
-
 #pragma once
+
+#include "ServiceLocator.h"
 
 class GameService {
 public:
@@ -20,4 +20,9 @@ private:
     // Private methods
     void initialize();
     void destroy();
+    void initializeVariables();
+
+    // Private properties
+    ServiceLocator* serviceLocator;
+    sf::RenderWindow* gameWindow;
 };
