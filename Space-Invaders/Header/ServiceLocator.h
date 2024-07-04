@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicService.h"
+#include "EventService.h"
 
 class ServiceLocator {
 public:
@@ -9,6 +10,7 @@ public:
     void initialize();
     void update();
     void render();
+    EventService* getEventService();
     GraphicService* getGraphicService();
     void clearAllServices();
 
@@ -20,6 +22,7 @@ private:
 
     // Private properties
     GraphicService* graphicService;
+    EventService* eventService;
 
     // Singleton instance
     static ServiceLocator* instance;

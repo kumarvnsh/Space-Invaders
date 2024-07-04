@@ -6,11 +6,13 @@ ServiceLocator* ServiceLocator::instance = nullptr;
 // Constructor
 ServiceLocator::ServiceLocator() {
     graphicService = new GraphicService();
+    eventService = new EventService();
 }
 
 // Destructor
 ServiceLocator::~ServiceLocator() {
     delete graphicService;
+    delete eventService;
 }
 
 // Singleton instance getter
@@ -23,10 +25,12 @@ ServiceLocator* ServiceLocator::getInstance() {
 
 void ServiceLocator::initialize() {
     graphicService->initialize();
+    eventService->initialize();
 }
 
 void ServiceLocator::update() {
     graphicService->update();
+    eventService->processEvents(); // Ensure event processing is called here
 }
 
 void ServiceLocator::render() {
@@ -35,6 +39,10 @@ void ServiceLocator::render() {
 
 GraphicService* ServiceLocator::getGraphicService() {
     return graphicService;
+}
+
+EventService* ServiceLocator::getEventService() {
+    return eventService;
 }
 
 void ServiceLocator::createServices() {
