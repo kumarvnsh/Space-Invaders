@@ -15,7 +15,7 @@ void PlayerModel::initialize() {
 
 void PlayerModel::reset() {
     player_position = initial_player_position;
-    player_speed = 350.0f; // Example speed
+    player_speed = 350.0f;
     player_state = PlayerState::ALIVE;
 }
 

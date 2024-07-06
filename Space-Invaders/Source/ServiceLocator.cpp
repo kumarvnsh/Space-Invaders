@@ -27,10 +27,10 @@ ServiceLocator* ServiceLocator::getInstance() {
     return instance;
 }
 
-void ServiceLocator::initialize() {
+void ServiceLocator::initialize(sf::RenderWindow* window) {
     graphicService->initialize();
     eventService->initialize();
-    playerService->initialize();
+    playerService->initialize(window);
     timeService->initialize();
 }
 

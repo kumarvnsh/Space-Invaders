@@ -5,16 +5,11 @@
 #include "PlayerService.h"
 #include "TimeService.h"
 
-class GraphicService;  // Forward declaration
-class EventService;    // Forward declaration
-class PlayerService;   // Forward declaration
-class TimeService;     // Forward declaration
-
 class ServiceLocator {
 public:
     // Public methods
     static ServiceLocator* getInstance();
-    void initialize();
+    void initialize(sf::RenderWindow* window);
     void update();
     void render();
     EventService* getEventService();

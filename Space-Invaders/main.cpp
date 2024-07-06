@@ -1,20 +1,27 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
-
-#include "Header/GraphicService.h"
 #include "Header/GameService.h"
 
-
-
 int main() {
-    GameService* game_service = new GameService();
-    game_service->Ignite();
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
 
-    while (game_service->isRunning()) {
-        game_service->update();
-        game_service->render();
+    GameService gameService;
+    gameService.Ignite(&window);
+
+    sf::Clock clock;
+    while (gameService.isRunning()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        float deltaTime = clock.restart().asSeconds();
+
+        gameService.update();
+        window.clear();
+        gameService.render();
+        window.display();
     }
 
-    delete game_service;
     return 0;
 }
