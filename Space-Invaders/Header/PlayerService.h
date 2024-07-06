@@ -1,8 +1,6 @@
 #pragma once
-#pragma once
 
 #include <SFML/Graphics.hpp>
-#include "ServiceLocator.h"
 
 class PlayerService {
 private:
@@ -20,7 +18,9 @@ private:
 
     // Private methods
     void initializePlayerSprite();
-    void processPlayerInput();
+    void processPlayerInput(float deltaTime);
+    void moveLeft(float deltaTime);
+    void moveRight(float deltaTime);
 
 public:
     // Constructor and Destructor
@@ -29,13 +29,12 @@ public:
 
     // Public methods
     void initialize();
-    void update();
+    void update(float deltaTime);
     void render();
 
     int getScore();
     void setScore(int newScore);
     sf::Vector2f getPosition();
     void takeDamage();
-    void move(float offsetX);
     void shootBullets();
 };

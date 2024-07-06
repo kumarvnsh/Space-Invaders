@@ -3,6 +3,12 @@
 #include "GraphicService.h"
 #include "EventService.h"
 #include "PlayerService.h"
+#include "TimeService.h"
+
+class GraphicService;  // Forward declaration
+class EventService;    // Forward declaration
+class PlayerService;   // Forward declaration
+class TimeService;     // Forward declaration
 
 class ServiceLocator {
 public:
@@ -14,6 +20,7 @@ public:
     EventService* getEventService();
     GraphicService* getGraphicService();
     PlayerService* getPlayerService();
+    TimeService* getTimeService();
     void clearAllServices();
 
 private:
@@ -26,6 +33,7 @@ private:
     GraphicService* graphicService;
     EventService* eventService;
     PlayerService* playerService;
+    TimeService* timeService;
 
     // Singleton instance
     static ServiceLocator* instance;

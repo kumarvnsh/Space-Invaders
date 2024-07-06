@@ -1,12 +1,14 @@
 #include "../Header/PlayerService.h"
 #include "../Header/ServiceLocator.h"
+#include <iostream>
+
 
 // Constructor
 PlayerService::PlayerService() {
     game_window = nullptr;
     health = 3;
     position = sf::Vector2f(375.0f, 500.0f);
-    movement_speed = 0.5f;
+    movement_speed = 350.0f; // Movement speed is now units per second
     player_score = 0;
 }
 
@@ -20,8 +22,8 @@ void PlayerService::initialize() {
 }
 
 // Update the player service
-void PlayerService::update() {
-    processPlayerInput();
+void PlayerService::update(float deltaTime) {
+    processPlayerInput(deltaTime);
     player_sprite.setPosition(getPosition());
 }
 
@@ -33,7 +35,7 @@ void PlayerService::render() {
 // Private method to initialize player sprite
 void PlayerService::initializePlayerSprite() {
     if (!player_texture.loadFromFile(player_texture_path)) {
-        std::cerr << "Error loading player ship texture" << std::endl;
+        std::cerr << "Error loading player ship texture" << std::endl; // Use std::cerr
         return;
     }
     player_sprite.setTexture(player_texture);
@@ -41,14 +43,26 @@ void PlayerService::initializePlayerSprite() {
 }
 
 // Private method to process player input
-void PlayerService::processPlayerInput() {
+void PlayerService::processPlayerInput(float deltaTime) {
     EventService* event_service = ServiceLocator::getInstance()->getEventService();
     if (event_service->pressedLeftKey()) {
-        move(-0.5f);
+        moveLeft(deltaTime);
     }
     if (event_service->pressedRightKey()) {
-        move(0.5f);
+        moveRight(deltaTime);
     }
+}
+
+// Method to move the player left
+void PlayerService::moveLeft(float deltaTime) {
+    position.x -= movement_speed * deltaTime;
+    if (position.x < 25) position.x = 25;
+}
+
+// Method to move the player right
+void PlayerService::moveRight(float deltaTime) {
+    position.x += movement_speed * deltaTime;
+    if (position.x > 725) position.x = 725;
 }
 
 // Getter for player score
@@ -69,13 +83,6 @@ sf::Vector2f PlayerService::getPosition() {
 // Method to handle player damage
 void PlayerService::takeDamage() {
     // Implement damage logic here
-}
-
-// Method to move the player
-void PlayerService::move(float offsetX) {
-    position.x += offsetX * movement_speed;
-    if (position.x < 25) position.x = 25;
-    if (position.x > 725) position.x = 725;
 }
 
 // Method to handle shooting bullets

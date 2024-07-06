@@ -8,6 +8,7 @@ ServiceLocator::ServiceLocator() {
     graphicService = new GraphicService();
     eventService = new EventService();
     playerService = new PlayerService();
+    timeService = new TimeService();
 }
 
 // Destructor
@@ -15,6 +16,7 @@ ServiceLocator::~ServiceLocator() {
     delete graphicService;
     delete eventService;
     delete playerService;
+    delete timeService;
 }
 
 // Singleton instance getter
@@ -29,12 +31,14 @@ void ServiceLocator::initialize() {
     graphicService->initialize();
     eventService->initialize();
     playerService->initialize();
+    timeService->initialize();
 }
 
 void ServiceLocator::update() {
     graphicService->update();
     eventService->processEvents(); // Ensure event processing is called here
-    playerService->update();
+    timeService->update();
+    playerService->update(timeService->getDeltaTime());
 }
 
 void ServiceLocator::render() {
@@ -52,6 +56,10 @@ EventService* ServiceLocator::getEventService() {
 
 PlayerService* ServiceLocator::getPlayerService() {
     return playerService;
+}
+
+TimeService* ServiceLocator::getTimeService() {
+    return timeService;
 }
 
 void ServiceLocator::createServices() {
