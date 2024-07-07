@@ -142,6 +142,8 @@
     <ClCompile Include="Source\Player\PlayerView.cpp" />
     <ClCompile Include="Source\ServiceLocator\ServiceLocator.cpp" />
     <ClCompile Include="Source\TimeService\TimeService.cpp" />
+    <ClCompile Include="Source\UIService\MainMenuUIController\MainMenuUIController.cpp" />
+    <ClCompile Include="Source\UIService\UIService.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\EventService\EventService.h" />
@@ -153,6 +155,8 @@
     <ClInclude Include="Header\Player\PlayerView.h" />
     <ClInclude Include="Header\ServiceLocator\ServiceLocator.h" />
     <ClInclude Include="Header\TimeService\TimeService.h" />
+    <ClInclude Include="Header\UIService\MainMenuUIController\MainMenuUIController.h" />
+    <ClInclude Include="Header\UIService\UIService.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

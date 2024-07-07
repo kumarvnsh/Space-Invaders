@@ -10,6 +10,7 @@ ServiceLocator::ServiceLocator() {
     playerService = new PlayerService();
     timeService = new TimeService();
     gameService = new GameService();
+    uiService = new UIService();
 }
 
 // Destructor
@@ -19,6 +20,7 @@ ServiceLocator::~ServiceLocator() {
     delete playerService;
     delete timeService;
     delete gameService;
+    delete uiService;
 }
 
 // Singleton instance getter
@@ -35,20 +37,23 @@ void ServiceLocator::initialize(sf::RenderWindow* window) {
     playerService->initialize(window);
     timeService->initialize();
     gameService->Ignite(window);
+    uiService->initialize(window);
 }
 
 void ServiceLocator::update() {
     graphicService->update();
-    eventService->processEvents(); // Ensure event processing is called here
+    eventService->processEvents();
     timeService->update();
     playerService->update(timeService->getDeltaTime());
     gameService->update();
+    uiService->update();
 }
 
 void ServiceLocator::render() {
     graphicService->render();
     playerService->render();
     gameService->render();
+    uiService->render();
 }
 
 GraphicService* ServiceLocator::getGraphicService() {
@@ -69,6 +74,10 @@ TimeService* ServiceLocator::getTimeService() {
 
 GameService* ServiceLocator::getGameService() {
     return gameService;
+}
+
+UIService* ServiceLocator::getUIService() {
+    return uiService;
 }
 
 void ServiceLocator::createServices() {
