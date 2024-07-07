@@ -1,27 +1,17 @@
-#include <SFML/Graphics.hpp>
-#include "Header/GameService/GameService.h"
+#include "Header/ServiceLocator/ServiceLocator.h"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
+    ServiceLocator::getInstance()->initialize();
+    ServiceLocator::getInstance()->Ignite();
 
-    GameService gameService;
-    gameService.Ignite(&window);
+    sf::RenderWindow* game_window = ServiceLocator::getInstance()->getGraphicService()->getGameWindow();
 
-    sf::Clock clock;
-    while (gameService.isRunning()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        float deltaTime = clock.restart().asSeconds();
-
-        gameService.update();
-        window.clear();
-        gameService.render();
-        window.display();
+    while (game_window->isOpen()) {
+        ServiceLocator::getInstance()->getEventService()->processEvents();
+        ServiceLocator::getInstance()->getGameService()->update();
+        ServiceLocator::getInstance()->render();
     }
 
+    ServiceLocator::getInstance()->destroy();
     return 0;
 }

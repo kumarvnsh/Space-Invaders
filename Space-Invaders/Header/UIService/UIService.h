@@ -1,22 +1,16 @@
 #pragma once
 
-#include <SFML/Graphics/RenderWindow.hpp>
-#include "MainMenuUIController/MainMenuUIController.h"
+#include "MainMenuUIController/MainMenuUIController.h"  // Include the MainMenuUIController header
 
 class UIService {
+private:
+    UI::MainMenu::MainMenuUIController* main_menu_ui_controller;  // Use the correct namespace and pointer
+
 public:
     UIService();
     ~UIService();
 
-    void initialize(sf::RenderWindow* window);
+    void initialize();
     void update();
     void render();
-    void destroy();
-
-private:
-    MainMenuUIController* mainMenuController;
-
-    void createUIControllers();
-    void initializeUIControllers(sf::RenderWindow* window);
-    void destroyUIControllers();
 };

@@ -1,29 +1,22 @@
 #include "../../Header/ServiceLocator/ServiceLocator.h"
+#include "../../Header/GraphicService/GraphicService.h"
+#include "../../Header/GameService/GameService.h"
+#include "../../Header/EventService/EventService.h"
+#include "../../Header/UIService/UIService.h"
 
-// Initialize the static member
 ServiceLocator* ServiceLocator::instance = nullptr;
 
-// Constructor
 ServiceLocator::ServiceLocator() {
-    graphicService = new GraphicService();
-    eventService = new EventService();
-    playerService = new PlayerService();
-    timeService = new TimeService();
-    gameService = new GameService();
-    uiService = new UIService();
+    graphic_service = nullptr;
+    game_service = nullptr;
+    event_service = nullptr;
+    ui_service = nullptr;
 }
 
-// Destructor
 ServiceLocator::~ServiceLocator() {
-    delete graphicService;
-    delete eventService;
-    delete playerService;
-    delete timeService;
-    delete gameService;
-    delete uiService;
+    destroy();
 }
 
-// Singleton instance getter
 ServiceLocator* ServiceLocator::getInstance() {
     if (instance == nullptr) {
         instance = new ServiceLocator();
@@ -31,59 +24,46 @@ ServiceLocator* ServiceLocator::getInstance() {
     return instance;
 }
 
-void ServiceLocator::initialize(sf::RenderWindow* window) {
-    graphicService->initialize();
-    eventService->initialize();
-    playerService->initialize(window);
-    timeService->initialize();
-    gameService->Ignite(window);
-    uiService->initialize(window);
+void ServiceLocator::initialize() {
+    graphic_service = new GraphicService();
+    game_service = new GameService();
+    event_service = new EventService();
+    ui_service = new UIService();
+
+    graphic_service->initialize();
+    game_service->initialize();
+    event_service->initialize();
+    ui_service->initialize();
 }
 
-void ServiceLocator::update() {
-    graphicService->update();
-    eventService->processEvents();
-    timeService->update();
-    playerService->update(timeService->getDeltaTime());
-    gameService->update();
-    uiService->update();
+void ServiceLocator::destroy() {
+    delete graphic_service;
+    delete game_service;
+    delete event_service;
+    delete ui_service;
 }
 
 void ServiceLocator::render() {
-    graphicService->render();
-    playerService->render();
-    gameService->render();
-    uiService->render();
+    graphic_service->render();
+    ui_service->render();
 }
 
 GraphicService* ServiceLocator::getGraphicService() {
-    return graphicService;
-}
-
-EventService* ServiceLocator::getEventService() {
-    return eventService;
-}
-
-PlayerService* ServiceLocator::getPlayerService() {
-    return playerService;
-}
-
-TimeService* ServiceLocator::getTimeService() {
-    return timeService;
+    return graphic_service;
 }
 
 GameService* ServiceLocator::getGameService() {
-    return gameService;
+    return game_service;
+}
+
+EventService* ServiceLocator::getEventService() {
+    return event_service;
 }
 
 UIService* ServiceLocator::getUIService() {
-    return uiService;
+    return ui_service;
 }
 
-void ServiceLocator::createServices() {
-    // Additional services can be created and initialized here
-}
-
-void ServiceLocator::clearAllServices() {
-    // Clear or deregister services if needed
+void ServiceLocator::Ignite() {
+    game_service->Ignite();
 }

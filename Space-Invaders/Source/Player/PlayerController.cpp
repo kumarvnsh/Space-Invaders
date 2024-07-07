@@ -1,45 +1,32 @@
 #include "../../Header/Player/PlayerController.h"
-#include "../../Header/Player/PlayerModel.h"
-#include "../../Header/Player/PlayerView.h"
-#include <SFML/Graphics/RenderWindow.hpp>
+#include "../../Header/ServiceLocator/ServiceLocator.h"
+#include "../../Header/EventService/EventService.h"
 
-PlayerController::PlayerController() {
-    player_model = new PlayerModel();
-    player_view = new PlayerView();
-}
-
-PlayerController::~PlayerController() {
-    delete player_model;
-    delete player_view;
-}
+PlayerController::PlayerController(PlayerModel* model, PlayerView* view) : model(model), view(view) {}
 
 void PlayerController::initialize(sf::RenderWindow* window) {
-    player_model->initialize();
-    player_view->initialize(window);
+    model->reset();
+    view->initialize(window);
 }
 
 void PlayerController::update(float deltaTime) {
-    processPlayerInput(deltaTime);
-    player_view->setSpritePosition(player_model->getPosition());
+    processInput(deltaTime);
 }
 
 void PlayerController::render() {
-    player_view->render();
+    view->render();
 }
 
-PlayerModel* PlayerController::getModel() {
-    return player_model;
-}
-
-PlayerView* PlayerController::getView() {
-    return player_view;
-}
-
-void PlayerController::processPlayerInput(float deltaTime) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        player_model->setPosition(player_model->getPosition() - sf::Vector2f(player_model->getSpeed() * deltaTime, 0));
+void PlayerController::processInput(float deltaTime) {
+    EventService* eventService = ServiceLocator::getInstance()->getEventService();
+    if (eventService->pressedLeftKey()) {
+        sf::Vector2f newPosition = model->getPosition();
+        newPosition.x -= model->getMovementSpeed() * deltaTime;
+        model->setPosition(newPosition);
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        player_model->setPosition(player_model->getPosition() + sf::Vector2f(player_model->getSpeed() * deltaTime, 0));
+    if (eventService->pressedRightKey()) {
+        sf::Vector2f newPosition = model->getPosition();
+        newPosition.x += model->getMovementSpeed() * deltaTime;
+        model->setPosition(newPosition);
     }
 }

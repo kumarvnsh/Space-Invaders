@@ -16,23 +16,11 @@ void PlayerView::render() {
     }
 }
 
-void PlayerView::setSpritePosition(const sf::Vector2f& position) {
-    player_sprite.setPosition(position);
-}
-
 void PlayerView::initializePlayerSprite() {
-    if (!player_texture.loadFromFile(player_texture_path)) {
+    if (!player_texture.loadFromFile("assets/textures/player_ship.png")) {
         std::cerr << "Error loading player ship texture" << std::endl;
         return;
     }
     player_sprite.setTexture(player_texture);
-    scaleSprite();
-}
-
-void PlayerView::scaleSprite() {
-    sf::Vector2u textureSize = player_texture.getSize();
-    player_sprite.setScale(
-        static_cast<float>(width) / textureSize.x,
-        static_cast<float>(height) / textureSize.y
-    );
+    player_sprite.setScale(0.5f, 0.5f);
 }

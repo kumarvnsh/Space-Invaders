@@ -1,25 +1,21 @@
 #include "../../Header/Player/PlayerModel.h"
 
-const float PlayerModel::LEFT_BOUNDARY = 25.0f;
-const float PlayerModel::RIGHT_BOUNDARY = 725.0f;
+const sf::Vector2f PlayerModel::initial_player_position = sf::Vector2f(950.f, 950.f);
+const sf::Vector2f PlayerModel::left_most_position = sf::Vector2f(50.f, 950.f);
+const sf::Vector2f PlayerModel::right_most_position = sf::Vector2f(1800.f, 950.f);
+const float PlayerModel::player_movement_speed = 350.0f;
 
 PlayerModel::PlayerModel() {
-    initialize();
-}
-
-PlayerModel::~PlayerModel() = default;
-
-void PlayerModel::initialize() {
     reset();
 }
 
+PlayerModel::~PlayerModel() {}
+
 void PlayerModel::reset() {
     player_position = initial_player_position;
-    player_speed = 350.0f;
     player_state = PlayerState::ALIVE;
 }
 
-// Getters and Setters
 sf::Vector2f PlayerModel::getPosition() const {
     return player_position;
 }
@@ -28,18 +24,14 @@ void PlayerModel::setPosition(const sf::Vector2f& position) {
     player_position = position;
 }
 
-float PlayerModel::getSpeed() const {
-    return player_speed;
+float PlayerModel::getMovementSpeed() const {
+    return player_movement_speed;
 }
 
-void PlayerModel::setSpeed(float speed) {
-    player_speed = speed;
-}
-
-PlayerState PlayerModel::getState() const {
+PlayerModel::PlayerState PlayerModel::getPlayerState() const {
     return player_state;
 }
 
-void PlayerModel::setState(PlayerState state) {
+void PlayerModel::setPlayerState(PlayerState state) {
     player_state = state;
 }

@@ -1,45 +1,23 @@
 #include "../../Header/UIService/UIService.h"
+#include "../../Header/ServiceLocator/ServiceLocator.h"
 
-UIService::UIService() : mainMenuController(nullptr) {}
-
-UIService::~UIService() {
-    destroy();
+UIService::UIService() {
+    main_menu_ui_controller = nullptr;
 }
 
-void UIService::initialize(sf::RenderWindow* window) {
-    createUIControllers();
-    initializeUIControllers(window);
+UIService::~UIService() {
+    delete main_menu_ui_controller;
+}
+
+void UIService::initialize() {
+    main_menu_ui_controller = new UI::MainMenu::MainMenuUIController();  // Use the correct namespace
+    main_menu_ui_controller->initialize(ServiceLocator::getInstance()->getGraphicService()->getGameWindow());  // Pass the correct argument
 }
 
 void UIService::update() {
-    if (mainMenuController != nullptr) {
-        mainMenuController->update();
-    }
+    main_menu_ui_controller->update();
 }
 
 void UIService::render() {
-    if (mainMenuController != nullptr) {
-        mainMenuController->render();
-    }
-}
-
-void UIService::destroy() {
-    destroyUIControllers();
-}
-
-void UIService::createUIControllers() {
-    mainMenuController = new MainMenuUIController();
-}
-
-void UIService::initializeUIControllers(sf::RenderWindow* window) {
-    if (mainMenuController != nullptr) {
-        mainMenuController->initialize(window);
-    }
-}
-
-void UIService::destroyUIControllers() {
-    if (mainMenuController != nullptr) {
-        delete mainMenuController;
-        mainMenuController = nullptr;
-    }
+    main_menu_ui_controller->render();
 }

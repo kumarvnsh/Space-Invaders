@@ -1,5 +1,4 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
 
 enum class GameState {
@@ -9,23 +8,21 @@ enum class GameState {
 };
 
 class GameService {
+private:
+    static GameState current_state;
+    bool running;
+
 public:
     GameService();
     ~GameService();
 
-    void Ignite(sf::RenderWindow* window);
+    static void setCurrentState(GameState state);
+    static GameState getCurrentState();
+
+    void initialize();
     void update();
     void render();
-    bool isRunning();
 
-    // Getter and setter for game state
-    GameState getCurrentState() const;
-    void setCurrentState(GameState state);
-
-private:
-    void initialize(sf::RenderWindow* window);
-    void destroy();
-    bool running;
-
-    GameState current_state; // Current state of the game
+    void Ignite(); // Ensure this method is declared
+    bool isRunning(); // Ensure this method is declared
 };

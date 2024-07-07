@@ -1,23 +1,26 @@
 #include "../../Header/GraphicService/GraphicService.h"
-#include <SFML/Graphics.hpp>
+#include "../../Header/ServiceLocator/ServiceLocator.h"
 
-GraphicService::GraphicService() { game_window = nullptr; }
-GraphicService::~GraphicService() { onDestroy(); }
+GraphicService::GraphicService() : game_window(nullptr), video_mode(nullptr) {}
+
+GraphicService::~GraphicService() {
+    onDestroy();
+}
 
 void GraphicService::initialize() {
     setVideoMode();
-    game_window = new sf::RenderWindow(*video_mode, game_window_title);
-    game_window->setFramerateLimit(frame_rate);
+    game_window = new sf::RenderWindow(*video_mode, game_window_title, sf::Style::Fullscreen);
+    game_window->setFramerateLimit(60);
 }
 
-void GraphicService::update() {
-    // Update logic if any
-}
+void GraphicService::update() {}
 
 void GraphicService::render() {
-    game_window->clear(window_color);
-    // Render other objects here
-    game_window->display();
+    if (game_window) {
+        game_window->clear(window_color);
+        ServiceLocator::getInstance()->getUIService()->render();  // Render UI
+        game_window->display();
+    }
 }
 
 bool GraphicService::isGameWindowOpen() {
