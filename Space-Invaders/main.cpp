@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "Header/GameService.h"
+#include "Header/GameService/GameService.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
