@@ -1,14 +1,15 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
 
 namespace UI {
     namespace MainMenu {
         class MainMenuUIController {
         private:
-            const sf::String background_texture_path = "assets/textures/space_invaders_bg.png";
-            const sf::String play_button_texture_path = "assets/textures/play_button.png";
-            const sf::String instructions_button_texture_path = "assets/textures/instructions_button.png";
-            const sf::String quit_button_texture_path = "assets/textures/quit_button.png";
+            const std::string background_texture_path = "assets/textures/space_invaders_bg.png";
+            const std::string play_button_texture_path = "assets/textures/play_button.png";
+            const std::string instructions_button_texture_path = "assets/textures/instructions_button.png";
+            const std::string quit_button_texture_path = "assets/textures/quit_button.png";
 
             const float button_width = 400.f;
             const float button_height = 140.f;
@@ -38,14 +39,14 @@ namespace UI {
             void scaleButton(sf::Sprite* button_to_scale);
             void positionButtons();
 
-            bool isButtonClicked(const sf::Sprite& button);
-
         public:
             MainMenuUIController();
 
             void initialize(sf::RenderWindow* window);
             void update();
             void render();
+            void processButtonInteractions();
+            bool clickedButton(const sf::Sprite& button);
         };
     }
 }

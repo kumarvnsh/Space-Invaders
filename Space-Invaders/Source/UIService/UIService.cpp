@@ -10,8 +10,8 @@ UIService::~UIService() {
 }
 
 void UIService::initialize() {
-    main_menu_ui_controller = new UI::MainMenu::MainMenuUIController();  // Use the correct namespace
-    main_menu_ui_controller->initialize(ServiceLocator::getInstance()->getGraphicService()->getGameWindow());  // Pass the correct argument
+    main_menu_ui_controller = new UI::MainMenu::MainMenuUIController();
+    main_menu_ui_controller->initialize(ServiceLocator::getInstance()->getGraphicService()->getGameWindow());
 }
 
 void UIService::update() {

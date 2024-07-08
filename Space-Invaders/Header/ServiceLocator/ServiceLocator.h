@@ -1,8 +1,10 @@
 #pragma once
+
 #include "../GraphicService/GraphicService.h"
 #include "../GameService/GameService.h"
 #include "../EventService/EventService.h"
 #include "../UIService/UIService.h"
+#include "../Player/PlayerService.h"
 
 class ServiceLocator {
 private:
@@ -10,6 +12,7 @@ private:
     GameService* game_service;
     EventService* event_service;
     UIService* ui_service;
+    PlayerService* player_service;
 
     static ServiceLocator* instance;
 
@@ -26,5 +29,6 @@ public:
     GameService* getGameService();
     EventService* getEventService();
     UIService* getUIService();
+    PlayerService* getPlayerService();
     void Ignite();
 };

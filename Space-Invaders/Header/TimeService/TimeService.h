@@ -12,12 +12,10 @@ private:
     void updatePreviousTime();
 
 public:
-    // Constructor and Destructor
-    TimeService() = default;
-    ~TimeService() = default;
+    TimeService();
+    ~TimeService();
 
-    // Public methods
     void initialize();
     void update();
-    float getDeltaTime();
+    float getDeltaTime() const;
 };

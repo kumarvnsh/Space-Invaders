@@ -7,6 +7,7 @@ PlayerController::PlayerController(PlayerModel* model, PlayerView* view) : model
 void PlayerController::initialize(sf::RenderWindow* window) {
     model->reset();
     view->initialize(window);
+    model->setScreenDimensions(window->getSize());
 }
 
 void PlayerController::update(float deltaTime) {
@@ -19,14 +20,26 @@ void PlayerController::render() {
 
 void PlayerController::processInput(float deltaTime) {
     EventService* eventService = ServiceLocator::getInstance()->getEventService();
-    if (eventService->pressedLeftKey()) {
-        sf::Vector2f newPosition = model->getPosition();
-        newPosition.x -= model->getMovementSpeed() * deltaTime;
-        model->setPosition(newPosition);
+    sf::Vector2f newPosition = model->getPosition();
+    float movementSpeed = model->getMovementSpeed() * deltaTime;
+
+    // Smooth movement by checking the continuous state of the keys
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        newPosition.x -= movementSpeed;
     }
-    if (eventService->pressedRightKey()) {
-        sf::Vector2f newPosition = model->getPosition();
-        newPosition.x += model->getMovementSpeed() * deltaTime;
-        model->setPosition(newPosition);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        newPosition.x += movementSpeed;
     }
+
+    // Ensure the player stays within the screen bounds with a margin
+    float margin = 10.0f;
+    sf::FloatRect playerBounds = view->getSpriteBounds();
+    if (newPosition.x < margin) {
+        newPosition.x = margin;
+    }
+    if (newPosition.x > model->getScreenDimensions().x - playerBounds.width - margin) {
+        newPosition.x = model->getScreenDimensions().x - playerBounds.width - margin;
+    }
+
+    model->setPosition(newPosition);
 }

@@ -8,7 +8,8 @@ public:
     ~PlayerView();
 
     void initialize(sf::RenderWindow* window);
-    void render(); // No arguments needed
+    void render();
+    sf::FloatRect getSpriteBounds() const;
 
 private:
     sf::RenderWindow* game_window;

@@ -1,11 +1,7 @@
 #include "../../Header/Player/PlayerModel.h"
 
-const sf::Vector2f PlayerModel::initial_player_position = sf::Vector2f(950.f, 950.f);
-const sf::Vector2f PlayerModel::left_most_position = sf::Vector2f(50.f, 950.f);
-const sf::Vector2f PlayerModel::right_most_position = sf::Vector2f(1800.f, 950.f);
-const float PlayerModel::player_movement_speed = 350.0f;
-
-PlayerModel::PlayerModel() {
+PlayerModel::PlayerModel()
+    : player_movement_speed(350.0f) {
     reset();
 }
 
@@ -34,4 +30,17 @@ PlayerModel::PlayerState PlayerModel::getPlayerState() const {
 
 void PlayerModel::setPlayerState(PlayerState state) {
     player_state = state;
+}
+
+void PlayerModel::setScreenDimensions(const sf::Vector2u& dimensions) {
+    screen_dimensions = dimensions;
+    initial_player_position = sf::Vector2f(dimensions.x / 2.0f, dimensions.y - 120.0f); // Adjusted for bottom middle position
+}
+
+sf::Vector2u PlayerModel::getScreenDimensions() const {
+    return screen_dimensions;
+}
+
+void PlayerModel::setInitialPosition(const sf::Vector2f& position) {
+    initial_player_position = position;
 }

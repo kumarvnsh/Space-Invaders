@@ -1,13 +1,12 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-
-enum class GameState {
-    BOOT,
-    MAIN_MENU,
-    GAMEPLAY
-};
 
 class GameService {
+public:
+    enum class GameState {
+        MAIN_MENU,
+        GAMEPLAY
+    };
+
 private:
     static GameState current_state;
     bool running;
@@ -20,9 +19,10 @@ public:
     static GameState getCurrentState();
 
     void initialize();
-    void update();
+    void update(float deltaTime); // Change to accept deltaTime
     void render();
 
-    void Ignite(); // Ensure this method is declared
-    bool isRunning(); // Ensure this method is declared
+    void Ignite();
+    bool isRunning();
+    void showMainMenu();
 };

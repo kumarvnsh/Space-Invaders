@@ -1,12 +1,13 @@
 #include "../../Header/EventService/EventService.h"
 #include "../../Header/ServiceLocator/ServiceLocator.h"
 #include "../../Header/GraphicService/GraphicService.h"
+#include <iostream>
 
 EventService::EventService() {
     game_window = nullptr;
 }
 
-EventService::~EventService() = default; // calls the default destructor
+EventService::~EventService() = default;
 
 void EventService::initialize() {
     game_window = ServiceLocator::getInstance()->getGraphicService()->getGameWindow();
@@ -19,7 +20,6 @@ void EventService::update() {
 void EventService::processEvents() {
     if (isGameWindowOpen()) {
         while (game_window->pollEvent(game_event)) {
-            // Check for window closure
             if (gameWindowWasClosed() || hasQuitGame()) {
                 game_window->close();
             }
@@ -28,15 +28,13 @@ void EventService::processEvents() {
 }
 
 bool EventService::hasQuitGame() {
-    return (isKeyboardEvent() && pressedEscapeKey()); // only true if the ESC key is pressed and a keyboard event has been registered
+    return (isKeyboardEvent() && pressedEscapeKey());
 }
 
-// checks for if a keyboard key has been pressed
 bool EventService::isKeyboardEvent() {
     return game_event.type == sf::Event::KeyPressed;
 }
 
-// control click on the SFML functions to see what they do internally
 bool EventService::pressedEscapeKey() {
     return game_event.key.code == sf::Keyboard::Escape;
 }
@@ -55,4 +53,16 @@ bool EventService::pressedLeftKey() {
 
 bool EventService::pressedRightKey() {
     return game_event.type == sf::Event::KeyPressed && game_event.key.code == sf::Keyboard::Right;
+}
+
+bool EventService::leftMouseClicked() {
+    if (game_event.type == sf::Event::MouseButtonPressed && game_event.mouseButton.button == sf::Mouse::Left) {
+        std::cout << "Left mouse button clicked at position: (" << game_event.mouseButton.x << ", " << game_event.mouseButton.y << ")\n";
+        return true;
+    }
+    return false;
+}
+
+bool EventService::rightMouseClicked() {
+    return game_event.type == sf::Event::MouseButtonPressed && game_event.mouseButton.button == sf::Mouse::Right;
 }

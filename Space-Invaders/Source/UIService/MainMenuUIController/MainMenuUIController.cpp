@@ -1,6 +1,7 @@
 #include "../../Header/UIService/MainMenuUIController/MainMenuUIController.h"
 #include "../../Header/ServiceLocator/ServiceLocator.h"
 #include "../../Header/GameService/GameService.h"
+#include <iostream>
 
 namespace UI {
     namespace MainMenu {
@@ -15,9 +16,14 @@ namespace UI {
         }
 
         void MainMenuUIController::initializeBackgroundImage() {
+            std::cout << "Loading background texture from: " << background_texture_path << std::endl;
             if (background_texture.loadFromFile(background_texture_path)) {
                 background_sprite.setTexture(background_texture);
                 scaleBackgroundImage();
+                std::cout << "Background texture loaded successfully.\n";
+            }
+            else {
+                std::cerr << "Failed to load background texture from " << background_texture_path << "\n";
             }
         }
 
@@ -29,17 +35,28 @@ namespace UI {
         }
 
         void MainMenuUIController::initializeButtons() {
+            std::cout << "Loading button textures...\n";
             if (loadButtonTexturesFromFile()) {
                 setButtonSprites();
                 scaleAllButtons();
                 positionButtons();
+                std::cout << "Button textures loaded successfully.\n";
+            }
+            else {
+                std::cerr << "Failed to load one or more button textures.\n";
             }
         }
 
         bool MainMenuUIController::loadButtonTexturesFromFile() {
-            return play_button_texture.loadFromFile(play_button_texture_path) &&
-                instructions_button_texture.loadFromFile(instructions_button_texture_path) &&
-                quit_button_texture.loadFromFile(quit_button_texture_path);
+            bool play_loaded = play_button_texture.loadFromFile(play_button_texture_path);
+            bool instructions_loaded = instructions_button_texture.loadFromFile(instructions_button_texture_path);
+            bool quit_loaded = quit_button_texture.loadFromFile(quit_button_texture_path);
+
+            if (!play_loaded) std::cerr << "Failed to load play button texture from " << play_button_texture_path << "\n";
+            if (!instructions_loaded) std::cerr << "Failed to load instructions button texture from " << instructions_button_texture_path << "\n";
+            if (!quit_loaded) std::cerr << "Failed to load quit button texture from " << quit_button_texture_path << "\n";
+
+            return play_loaded && instructions_loaded && quit_loaded;
         }
 
         void MainMenuUIController::setButtonSprites() {
@@ -70,30 +87,46 @@ namespace UI {
         }
 
         void MainMenuUIController::update() {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                if (isButtonClicked(play_button_sprite)) {
-                    GameService::setCurrentState(GameState::GAMEPLAY);
-                }
-                else if (isButtonClicked(instructions_button_sprite)) {
-                    // Handle instructions button click
-                }
-                else if (isButtonClicked(quit_button_sprite)) {
-                    game_window->close();
-                }
+            if (ServiceLocator::getInstance()->getEventService()->leftMouseClicked()) {
+                processButtonInteractions();
             }
         }
 
-        bool MainMenuUIController::isButtonClicked(const sf::Sprite& button) {
+        void MainMenuUIController::processButtonInteractions() {
+            if (clickedButton(play_button_sprite)) {
+                std::cout << "Play button clicked\n";
+                GameService::setCurrentState(GameService::GameState::GAMEPLAY);
+            }
+            else if (clickedButton(instructions_button_sprite)) {
+                std::cout << "Instructions button clicked\n";
+                // Handle instructions button click
+            }
+            else if (clickedButton(quit_button_sprite)) {
+                std::cout << "Quit button clicked\n";
+                game_window->close();
+            }
+        }
+
+        bool MainMenuUIController::clickedButton(const sf::Sprite& button) {
             sf::Vector2i mouse_position = sf::Mouse::getPosition(*game_window);
             sf::FloatRect button_bounds = button.getGlobalBounds();
             return button_bounds.contains(static_cast<sf::Vector2f>(mouse_position));
         }
 
         void MainMenuUIController::render() {
+            std::cout << "Rendering background sprite\n";
             game_window->draw(background_sprite);
+
+            std::cout << "Rendering play button sprite\n";
             game_window->draw(play_button_sprite);
+
+            std::cout << "Rendering instructions button sprite\n";
             game_window->draw(instructions_button_sprite);
+
+            std::cout << "Rendering quit button sprite\n";
             game_window->draw(quit_button_sprite);
+
+            std::cout << "Rendered main menu.\n";
         }
     }
 }

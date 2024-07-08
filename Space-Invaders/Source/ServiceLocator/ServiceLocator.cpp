@@ -3,6 +3,7 @@
 #include "../../Header/GameService/GameService.h"
 #include "../../Header/EventService/EventService.h"
 #include "../../Header/UIService/UIService.h"
+#include "../../Header/Player/PlayerService.h"
 
 ServiceLocator* ServiceLocator::instance = nullptr;
 
@@ -11,6 +12,7 @@ ServiceLocator::ServiceLocator() {
     game_service = nullptr;
     event_service = nullptr;
     ui_service = nullptr;
+    player_service = nullptr;
 }
 
 ServiceLocator::~ServiceLocator() {
@@ -29,11 +31,13 @@ void ServiceLocator::initialize() {
     game_service = new GameService();
     event_service = new EventService();
     ui_service = new UIService();
+    player_service = new PlayerService();
 
     graphic_service->initialize();
     game_service->initialize();
     event_service->initialize();
     ui_service->initialize();
+    player_service->initialize(graphic_service->getGameWindow());
 }
 
 void ServiceLocator::destroy() {
@@ -41,11 +45,17 @@ void ServiceLocator::destroy() {
     delete game_service;
     delete event_service;
     delete ui_service;
+    delete player_service;
 }
 
 void ServiceLocator::render() {
+    if (game_service->getCurrentState() == GameService::GameState::MAIN_MENU) {
+        ui_service->render();
+    }
+    else if (game_service->getCurrentState() == GameService::GameState::GAMEPLAY) {
+        player_service->render();
+    }
     graphic_service->render();
-    ui_service->render();
 }
 
 GraphicService* ServiceLocator::getGraphicService() {
@@ -62,6 +72,10 @@ EventService* ServiceLocator::getEventService() {
 
 UIService* ServiceLocator::getUIService() {
     return ui_service;
+}
+
+PlayerService* ServiceLocator::getPlayerService() {
+    return player_service;
 }
 
 void ServiceLocator::Ignite() {
