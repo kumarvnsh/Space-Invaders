@@ -23,4 +23,10 @@ namespace Enemy {
     EnemyController* EnemyService::spawnEnemy() {
         return new EnemyController();
     }
+
+    void EnemyService::update() {
+        if (enemyController) {
+            enemyController->update();
+        }
+    }
 }

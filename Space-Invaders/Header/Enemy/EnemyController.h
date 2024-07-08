@@ -1,24 +1,31 @@
-// EnemyController.h
 #ifndef ENEMY_CONTROLLER_H
 #define ENEMY_CONTROLLER_H
 
-#include "EnemyModel.h"
-#include "EnemyView.h"
+#include <SFML/Graphics.hpp>
 
 namespace Enemy {
+    class EnemyView;
+    class EnemyModel;
+
     class EnemyController {
     public:
         EnemyController();
         ~EnemyController();
 
         void initialize();
-        sf::Vector2f getPosition() const;
+        void update();
+        void render(sf::RenderWindow& window);
 
-        void render(sf::RenderWindow& window); // Add render method here
+        sf::Vector2f getEnemyPosition() const;
 
     private:
         EnemyModel* model;
         EnemyView* view;
+
+        void move();
+        void moveLeft();
+        void moveRight();
+        void moveDown();
     };
 }
 

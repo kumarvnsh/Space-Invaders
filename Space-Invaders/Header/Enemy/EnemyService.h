@@ -1,4 +1,3 @@
-// EnemyService.h
 #ifndef ENEMY_SERVICE_H
 #define ENEMY_SERVICE_H
 
@@ -13,6 +12,7 @@ namespace Enemy {
         void initialize();
         void destroy();
         EnemyController* spawnEnemy();
+        void update();
 
     private:
         EnemyController* enemyController;

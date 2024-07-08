@@ -22,7 +22,7 @@ namespace Enemy {
 
     void EnemyView::initializeSprite() {
         sprite.setTexture(texture);
-        sprite.setPosition(controller->getPosition());
+        sprite.setPosition(controller->getEnemyPosition());
     }
 
     void EnemyView::scaleSprite() {
@@ -31,5 +31,9 @@ namespace Enemy {
 
     void EnemyView::render(sf::RenderWindow& window) {
         window.draw(sprite);
+    }
+
+    void EnemyView::update() {
+        sprite.setPosition(controller->getEnemyPosition());
     }
 }

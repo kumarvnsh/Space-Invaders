@@ -28,14 +28,13 @@ int main() {
         serviceLocator->getTimeService()->update();  // Update delta time
         float deltaTime = serviceLocator->getTimeService()->getDeltaTime();
         serviceLocator->getGameService()->update(deltaTime);
+        serviceLocator->getEnemyService()->update();
 
         // Clear window
         gameWindow->clear();
 
         // Render
         serviceLocator->render();
-
-        // Render Enemy
         serviceLocator->getEnemyService()->spawnEnemy()->render(*gameWindow);
 
         // Display the back buffer

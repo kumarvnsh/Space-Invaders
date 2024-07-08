@@ -1,4 +1,3 @@
-// EnemyView.h
 #ifndef ENEMY_VIEW_H
 #define ENEMY_VIEW_H
 
@@ -14,6 +13,7 @@ namespace Enemy {
 
         void initialize();
         void render(sf::RenderWindow& window);
+        void update();
 
     private:
         EnemyController* controller;
