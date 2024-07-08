@@ -1,8 +1,10 @@
-#ifndef ENEMY_SERVICE_H
-#define ENEMY_SERVICE_H
+#pragma once
+
+#include <vector>
+#include <SFML/Graphics.hpp>
 
 namespace Enemy {
-    class EnemyController; // Forward declaration
+    class EnemyController;
 
     class EnemyService {
     public:
@@ -10,13 +12,19 @@ namespace Enemy {
         ~EnemyService();
 
         void initialize();
-        void destroy();
-        EnemyController* spawnEnemy();
         void update();
+        void render(sf::RenderWindow& window);
+
+        void spawnEnemy();
 
     private:
-        EnemyController* enemyController;
+        std::vector<EnemyController*> enemyList;
+        const float spawnInterval = 3.0f;
+        float spawnTimer;
+
+        void updateSpawnTimer();
+        void processEnemySpawn();
+        void destroy();
     };
 }
 
-#endif // ENEMY_SERVICE_H

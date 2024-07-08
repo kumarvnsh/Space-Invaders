@@ -4,7 +4,9 @@ class GameService {
 public:
     enum class GameState {
         MAIN_MENU,
-        GAMEPLAY
+        GAMEPLAY,
+        PAUSE,
+        GAMEOVER
     };
 
 private:
@@ -19,10 +21,12 @@ public:
     static GameState getCurrentState();
 
     void initialize();
-    void update(float deltaTime); // Change to accept deltaTime
+    void update(float deltaTime);
     void render();
 
     void Ignite();
     bool isRunning();
     void showMainMenu();
 };
+
+

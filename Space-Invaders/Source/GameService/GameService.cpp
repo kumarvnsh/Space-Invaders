@@ -32,7 +32,6 @@ void GameService::update(float deltaTime) {
     }
 }
 
-
 void GameService::render() {
     if (current_state == GameState::MAIN_MENU) {
         ServiceLocator::getInstance()->getUIService()->render();
@@ -41,10 +40,6 @@ void GameService::render() {
         ServiceLocator::getInstance()->getPlayerService()->render();
     }
 }
-
-
-
-
 
 void GameService::Ignite() {
     running = true;

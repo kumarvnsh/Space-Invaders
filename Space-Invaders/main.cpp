@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "../../Header/ServiceLocator/ServiceLocator.h"
-#include "../../Header/Enemy/EnemyController.h"  // Include the EnemyController header
+#include "../../Header/Enemy/EnemyController.h"
 
 int main() {
     // Initialize service locator
@@ -35,7 +35,7 @@ int main() {
 
         // Render
         serviceLocator->render();
-        serviceLocator->getEnemyService()->spawnEnemy()->render(*gameWindow);
+        serviceLocator->getEnemyService()->render(*gameWindow);
 
         // Display the back buffer
         gameWindow->display();

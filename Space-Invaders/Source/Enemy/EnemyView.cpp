@@ -4,7 +4,7 @@
 
 namespace Enemy {
     EnemyView::EnemyView(EnemyController* controller)
-        : controller(controller), texturePath("path/to/texture.png"), width(50.0f), height(50.0f) {}
+        : controller(controller), texturePath("assets/textures/zapper.png"), width(50.0f), height(50.0f) {}
 
     EnemyView::~EnemyView() {}
 

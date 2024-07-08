@@ -1,5 +1,3 @@
-// ServiceLocator.h
-
 #pragma once
 
 #include "../GraphicService/GraphicService.h"
@@ -24,8 +22,7 @@ public:
     Event::EventService* getEventService();
     UIService* getUIService();
     PlayerService* getPlayerService();
-    TimeService* getTimeService(); // Add this line
-
+    TimeService* getTimeService();
 
 private:
     ServiceLocator();
@@ -38,5 +35,7 @@ private:
     Event::EventService* event_service;
     UIService* ui_service;
     PlayerService* player_service;
-    TimeService* time_service; // Add this line
+    TimeService* time_service;
 };
+
+
