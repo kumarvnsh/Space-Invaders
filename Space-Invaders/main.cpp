@@ -1,28 +1,35 @@
-#include "Header/ServiceLocator/ServiceLocator.h"
-#include "Header/TimeService/TimeService.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include "../../Header/ServiceLocator/ServiceLocator.h"
 
 int main() {
-    ServiceLocator::getInstance()->initialize();
-    ServiceLocator::getInstance()->Ignite();
+    // Initialize service locator
+    ServiceLocator* serviceLocator = ServiceLocator::getInstance();
+    serviceLocator->initialize();
 
-    sf::RenderWindow* game_window = ServiceLocator::getInstance()->getGraphicService()->getGameWindow();
-    TimeService timeService;
-    timeService.initialize();
+    // Get the game window
+    sf::RenderWindow* gameWindow = serviceLocator->getGraphicService()->getGameWindow();
+    //gameWindow->setFramerateLimit(60);  // Limit frame rate to 60 FPS
 
-    while (game_window->isOpen()) {
-        ServiceLocator::getInstance()->getEventService()->processEvents();
-        timeService.update();
+    while (gameWindow->isOpen()) {
+        // Process events
+        serviceLocator->getEventService()->processEvents();
 
-        float deltaTime = timeService.getDeltaTime();
-        ServiceLocator::getInstance()->getGameService()->update(deltaTime);
+        // Update game state
+        serviceLocator->getEventService()->update();
+        serviceLocator->getTimeService()->update();  // Update delta time
+        float deltaTime = serviceLocator->getTimeService()->getDeltaTime();
+        serviceLocator->getGameService()->update(deltaTime);
 
-        game_window->clear(); // Clear the window
-        ServiceLocator::getInstance()->getGameService()->render(); // Render game state
-        game_window->display(); // Display the window
+        // Clear window
+        gameWindow->clear();
+
+        // Render
+        serviceLocator->render();
+
+        // Display the back buffer
+        gameWindow->display();
     }
 
-    ServiceLocator::getInstance()->destroy();
+    serviceLocator->destroy();
     return 0;
 }

@@ -1,6 +1,7 @@
 #include "../../Header/UIService/MainMenuUIController/MainMenuUIController.h"
 #include "../../Header/ServiceLocator/ServiceLocator.h"
 #include "../../Header/GameService/GameService.h"
+#include "../../Header/EventService/EventService.h"
 #include <iostream>
 
 namespace UI {
@@ -11,7 +12,9 @@ namespace UI {
 
         void MainMenuUIController::initialize(sf::RenderWindow* window) {
             game_window = window;
+            std::cout << "Initializing background image" << std::endl;
             initializeBackgroundImage();
+            std::cout << "Initializing buttons" << std::endl;
             initializeButtons();
         }
 
@@ -52,10 +55,6 @@ namespace UI {
             bool instructions_loaded = instructions_button_texture.loadFromFile(instructions_button_texture_path);
             bool quit_loaded = quit_button_texture.loadFromFile(quit_button_texture_path);
 
-            if (!play_loaded) std::cerr << "Failed to load play button texture from " << play_button_texture_path << "\n";
-            if (!instructions_loaded) std::cerr << "Failed to load instructions button texture from " << instructions_button_texture_path << "\n";
-            if (!quit_loaded) std::cerr << "Failed to load quit button texture from " << quit_button_texture_path << "\n";
-
             return play_loaded && instructions_loaded && quit_loaded;
         }
 
@@ -81,9 +80,9 @@ namespace UI {
         void MainMenuUIController::positionButtons() {
             float x_position = (static_cast<float>(game_window->getSize().x) / 2) - button_width / 2;
 
-            play_button_sprite.setPosition({ x_position, 500.f });
-            instructions_button_sprite.setPosition({ x_position, 700.f });
-            quit_button_sprite.setPosition({ x_position, 900.f });
+            play_button_sprite.setPosition(x_position, 500.f);
+            instructions_button_sprite.setPosition(x_position, 700.f);
+            quit_button_sprite.setPosition(x_position, 900.f);
         }
 
         void MainMenuUIController::update() {
@@ -94,15 +93,12 @@ namespace UI {
 
         void MainMenuUIController::processButtonInteractions() {
             if (clickedButton(play_button_sprite)) {
-                std::cout << "Play button clicked\n";
                 GameService::setCurrentState(GameService::GameState::GAMEPLAY);
             }
             else if (clickedButton(instructions_button_sprite)) {
-                std::cout << "Instructions button clicked\n";
                 // Handle instructions button click
             }
             else if (clickedButton(quit_button_sprite)) {
-                std::cout << "Quit button clicked\n";
                 game_window->close();
             }
         }
@@ -113,20 +109,21 @@ namespace UI {
             return button_bounds.contains(static_cast<sf::Vector2f>(mouse_position));
         }
 
+
+
         void MainMenuUIController::render() {
-            std::cout << "Rendering background sprite\n";
+            std::cout << "Rendering background\n";
             game_window->draw(background_sprite);
 
-            std::cout << "Rendering play button sprite\n";
+            std::cout << "Rendering play button\n";
             game_window->draw(play_button_sprite);
 
-            std::cout << "Rendering instructions button sprite\n";
+            std::cout << "Rendering instructions button\n";
             game_window->draw(instructions_button_sprite);
 
-            std::cout << "Rendering quit button sprite\n";
+            std::cout << "Rendering quit button\n";
             game_window->draw(quit_button_sprite);
-
-            std::cout << "Rendered main menu.\n";
         }
+
     }
 }

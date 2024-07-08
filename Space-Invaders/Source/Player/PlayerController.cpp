@@ -19,15 +19,14 @@ void PlayerController::render() {
 }
 
 void PlayerController::processInput(float deltaTime) {
-    EventService* eventService = ServiceLocator::getInstance()->getEventService();
+    Event::EventService* eventService = ServiceLocator::getInstance()->getEventService();
     sf::Vector2f newPosition = model->getPosition();
     float movementSpeed = model->getMovementSpeed() * deltaTime;
 
-    // Smooth movement by checking the continuous state of the keys
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (eventService->pressedLeftKey() || eventService->pressedAKey()) {
         newPosition.x -= movementSpeed;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (eventService->pressedRightKey() || eventService->pressedDKey()) {
         newPosition.x += movementSpeed;
     }
 

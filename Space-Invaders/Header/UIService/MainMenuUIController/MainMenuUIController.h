@@ -39,6 +39,8 @@ namespace UI {
             void scaleButton(sf::Sprite* button_to_scale);
             void positionButtons();
 
+            bool isButtonClicked(const sf::Sprite& button);
+
         public:
             MainMenuUIController();
 

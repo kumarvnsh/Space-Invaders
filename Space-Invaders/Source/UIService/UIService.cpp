@@ -1,5 +1,6 @@
 #include "../../Header/UIService/UIService.h"
 #include "../../Header/ServiceLocator/ServiceLocator.h"
+#include <iostream>
 
 UIService::UIService() {
     main_menu_ui_controller = nullptr;
@@ -19,5 +20,7 @@ void UIService::update() {
 }
 
 void UIService::render() {
+    std::cout << "Rendering UIService\n";
     main_menu_ui_controller->render();
 }
+

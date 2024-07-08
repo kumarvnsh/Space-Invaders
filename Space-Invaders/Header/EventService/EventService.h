@@ -3,26 +3,46 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-class EventService {
-private:
-    sf::Event game_event;
-    sf::RenderWindow* game_window;
+namespace Event {
+    enum class ButtonState {
+        PRESSED,
+        HELD,
+        RELEASED
+    };
 
-    bool isGameWindowOpen();
-    bool gameWindowWasClosed();
-    bool hasQuitGame();
+    class EventService {
+    private:
+        sf::Event game_event;
+        sf::RenderWindow* game_window;
 
-public:
-    EventService();
-    ~EventService();
+        ButtonState left_mouse_button_state;
+        ButtonState right_mouse_button_state;
+        ButtonState left_arrow_button_state;
+        ButtonState right_arrow_button_state;
+        ButtonState a_button_state;
+        ButtonState d_button_state;
 
-    void initialize();
-    void update();
-    void processEvents();
-    bool pressedEscapeKey();
-    bool isKeyboardEvent();
-    bool pressedLeftKey();
-    bool pressedRightKey();
-    bool leftMouseClicked();
-    bool rightMouseClicked();
-};
+        void updateMouseButtonsState(ButtonState& current_button_state, sf::Mouse::Button mouse_button);
+        void updateKeyboardButtonsState(ButtonState& current_button_state, sf::Keyboard::Key keyboard_button);
+
+        bool isGameWindowOpen();
+        bool gameWindowWasClosed();
+        bool hasQuitGame();
+
+    public:
+        EventService();
+        ~EventService();
+
+        void initialize();
+        void update();
+        void processEvents();
+        bool pressedEscapeKey();
+        bool isKeyboardEvent();
+        bool pressedLeftKey();
+        bool pressedRightKey();
+        bool pressedAKey();
+        bool pressedDKey();
+        bool leftMouseClicked();
+        bool rightMouseClicked();
+    };
+}

@@ -1,9 +1,6 @@
+// ServiceLocator.cpp
+
 #include "../../Header/ServiceLocator/ServiceLocator.h"
-#include "../../Header/GraphicService/GraphicService.h"
-#include "../../Header/GameService/GameService.h"
-#include "../../Header/EventService/EventService.h"
-#include "../../Header/UIService/UIService.h"
-#include "../../Header/Player/PlayerService.h"
 
 ServiceLocator* ServiceLocator::instance = nullptr;
 
@@ -13,6 +10,7 @@ ServiceLocator::ServiceLocator() {
     event_service = nullptr;
     ui_service = nullptr;
     player_service = nullptr;
+    time_service = nullptr; // Add this line
 }
 
 ServiceLocator::~ServiceLocator() {
@@ -27,18 +25,37 @@ ServiceLocator* ServiceLocator::getInstance() {
 }
 
 void ServiceLocator::initialize() {
-    graphic_service = new GraphicService();
-    game_service = new GameService();
-    event_service = new EventService();
-    ui_service = new UIService();
-    player_service = new PlayerService();
+    if (!graphic_service) {
+        graphic_service = new GraphicService();
+        graphic_service->initialize();
+    }
 
-    graphic_service->initialize();
-    game_service->initialize();
-    event_service->initialize();
-    ui_service->initialize();
-    player_service->initialize(graphic_service->getGameWindow());
+    if (!game_service) {
+        game_service = new GameService();
+        game_service->initialize();
+    }
+
+    if (!event_service) {
+        event_service = new Event::EventService();
+        event_service->initialize();
+    }
+
+    if (!ui_service) {
+        ui_service = new UIService();
+        ui_service->initialize();
+    }
+
+    if (!player_service) {
+        player_service = new PlayerService();
+        player_service->initialize(graphic_service->getGameWindow());
+    }
+
+    if (!time_service) {
+        time_service = new TimeService();
+        time_service->initialize();
+    }
 }
+
 
 void ServiceLocator::destroy() {
     delete graphic_service;
@@ -46,6 +63,7 @@ void ServiceLocator::destroy() {
     delete event_service;
     delete ui_service;
     delete player_service;
+    delete time_service; // Add this line
 }
 
 void ServiceLocator::render() {
@@ -66,7 +84,7 @@ GameService* ServiceLocator::getGameService() {
     return game_service;
 }
 
-EventService* ServiceLocator::getEventService() {
+Event::EventService* ServiceLocator::getEventService() {
     return event_service;
 }
 
@@ -76,6 +94,10 @@ UIService* ServiceLocator::getUIService() {
 
 PlayerService* ServiceLocator::getPlayerService() {
     return player_service;
+}
+
+TimeService* ServiceLocator::getTimeService() { // Add this function
+    return time_service;
 }
 
 void ServiceLocator::Ignite() {

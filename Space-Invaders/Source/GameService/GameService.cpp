@@ -2,6 +2,7 @@
 #include "../../Header/ServiceLocator/ServiceLocator.h"
 #include "../../Header/UIService/UIService.h"
 #include "../../Header/Player/PlayerService.h"
+#include <iostream>
 
 GameService::GameState GameService::current_state = GameState::MAIN_MENU;
 
@@ -31,6 +32,7 @@ void GameService::update(float deltaTime) {
     }
 }
 
+
 void GameService::render() {
     if (current_state == GameState::MAIN_MENU) {
         ServiceLocator::getInstance()->getUIService()->render();
@@ -39,6 +41,10 @@ void GameService::render() {
         ServiceLocator::getInstance()->getPlayerService()->render();
     }
 }
+
+
+
+
 
 void GameService::Ignite() {
     running = true;
