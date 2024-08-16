@@ -8,7 +8,6 @@ namespace Enemy {
         : model(model ? model : new EnemyModel(EnemyConfig::EnemyType::GRUNT)),
         view(view ? view : new EnemyView(this)) {}
 
-
     EnemyController::~EnemyController() {
         delete model;
         delete view;
@@ -18,13 +17,14 @@ namespace Enemy {
         model->setPosition(getRandomInitialPosition());
     }
 
-    void EnemyController::move(float deltaTime) {
-        sf::Vector2f position = model->getPosition();
-        position.x += horizontal_speed * deltaTime;
-        position.y += vertical_speed * deltaTime;
-        model->setPosition(position);
-        handleOutOfBounds();
-    }
+    // Commented out as move() is now pure virtual
+    // void EnemyController::move(float deltaTime) {
+    //     sf::Vector2f position = model->getPosition();
+    //     position.x += horizontal_speed * deltaTime;
+    //     position.y += vertical_speed * deltaTime;
+    //     model->setPosition(position);
+    //     handleOutOfBounds();
+    // }
 
     void EnemyController::update() {
         move(ServiceLocator::getInstance()->getTimeService()->getDeltaTime());

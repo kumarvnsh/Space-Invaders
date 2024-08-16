@@ -1,6 +1,4 @@
-#ifndef ENEMY_CONTROLLER_H
-#define ENEMY_CONTROLLER_H
-
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "EnemyModel.h"
 #include "EnemyView.h"
@@ -14,7 +12,7 @@ namespace Enemy {
         virtual ~EnemyController();
 
         virtual void initialize();
-        virtual void move(float deltaTime);
+        virtual void move(float deltaTime) = 0;  // Mark as pure virtual function
         void update();
         void render(sf::RenderWindow& window);
 
@@ -36,8 +34,6 @@ namespace Enemy {
 
         float vertical_speed;
         float horizontal_speed;
-
-        void move();
 
         void moveLeft();
         void moveRight();
