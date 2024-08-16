@@ -22,8 +22,8 @@ namespace Enemy {
             return;
         }
 
-        updateSpawnTimer();
-        processEnemySpawn();
+        /*updateSpawnTimer();
+        processEnemySpawn();*/
 
         for (EnemyController* enemy : enemyList) {
             enemy->update();
@@ -36,22 +36,22 @@ namespace Enemy {
         }
     }
 
-    void EnemyService::updateSpawnTimer() {
-        spawnTimer += ServiceLocator::getInstance()->getTimeService()->getDeltaTime();
-    }
+    //void EnemyService::updateSpawnTimer() {
+    //    spawnTimer += ServiceLocator::getInstance()->getTimeService()->getDeltaTime();
+    //}
 
-    void EnemyService::processEnemySpawn() {
-        if (spawnTimer >= spawnInterval) {
-            spawnEnemy();
-            spawnTimer = 0.0f;  // Reset timer
-        }
-    }
+    //void EnemyService::processEnemySpawn() {
+    //    if (spawnTimer >= spawnInterval) {
+    //        spawnEnemy();
+    //        spawnTimer = 0.0f;  // Reset timer
+    //    }
+    //}
 
-    void EnemyService::spawnEnemy() {
+    /*void EnemyService::spawnEnemy() {
         EnemyController* enemyController = new EnemyController();
         enemyController->initialize();
         enemyList.push_back(enemyController);
-    }
+    }*/
 
     void EnemyService::destroy() {
         for (EnemyController* enemy : enemyList) {

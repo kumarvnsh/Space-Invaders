@@ -1,30 +1,20 @@
-#include "../../Header/Enemy/EnemyController.h"
-#include "../../Header/Enemy/EnemyModel.h"
+
 #include "../../Header/ServiceLocator/ServiceLocator.h"
+#include "../../header/Enemy/EnemyController.h"
 
 namespace Enemy {
-
     EnemyController::EnemyController(EnemyModel* model, EnemyView* view)
-        : model(model ? model : new EnemyModel(EnemyConfig::EnemyType::GRUNT)),
+        : enemy_model(model ? model : new EnemyModel(EnemyConfig::EnemyType::GRUNT)),
         view(view ? view : new EnemyView(this)) {}
 
     EnemyController::~EnemyController() {
-        delete model;
+        delete enemy_model;
         delete view;
     }
 
     void EnemyController::initialize() {
-        model->setPosition(getRandomInitialPosition());
+        enemy_model->setPosition(getRandomInitialPosition());
     }
-
-    // Commented out as move() is now pure virtual
-    // void EnemyController::move(float deltaTime) {
-    //     sf::Vector2f position = model->getPosition();
-    //     position.x += horizontal_speed * deltaTime;
-    //     position.y += vertical_speed * deltaTime;
-    //     model->setPosition(position);
-    //     handleOutOfBounds();
-    // }
 
     void EnemyController::update() {
         move(ServiceLocator::getInstance()->getTimeService()->getDeltaTime());
@@ -32,27 +22,27 @@ namespace Enemy {
     }
 
     void EnemyController::render(sf::RenderWindow& window) {
-        view->render(window);
+        view->render();
     }
 
     sf::Vector2f EnemyController::getEnemyPosition() const {
-        return model->getPosition();
+        return enemy_model->getPosition();
     }
 
     float EnemyController::getVerticalSpeed() const {
-        return vertical_speed;
+        return enemy_model->getMovementSpeed();
     }
 
     void EnemyController::setVerticalSpeed(float speed) {
-        vertical_speed = speed;
+        // Implement setting vertical speed
     }
 
     float EnemyController::getHorizontalSpeed() const {
-        return horizontal_speed;
+        return enemy_model->getMovementSpeed();
     }
 
     void EnemyController::setHorizontalSpeed(float speed) {
-        horizontal_speed = speed;
+        // Implement setting horizontal speed
     }
 
     sf::Vector2f EnemyController::getRandomInitialPosition() {
@@ -61,28 +51,14 @@ namespace Enemy {
     }
 
     void EnemyController::handleOutOfBounds() {
-        sf::Vector2f position = model->getPosition();
-        if (position.x < 0 || position.x > model->getScreenDimensions().x ||
-            position.y < 0 || position.y > model->getScreenDimensions().y) {
-            model->setPosition(getRandomInitialPosition());
+        sf::Vector2f position = enemy_model->getPosition();
+        if (position.x < 0 || position.x > enemy_model->getScreenDimensions().x ||
+            position.y < 0 || position.y > enemy_model->getScreenDimensions().y) {
+            enemy_model->setPosition(getRandomInitialPosition());
         }
     }
 
-    void EnemyController::moveLeft() {
-        sf::Vector2f currentPosition = model->getPosition();
-        currentPosition.x -= model->getMovementSpeed() * ServiceLocator::getInstance()->getTimeService()->getDeltaTime();
-        model->setPosition(currentPosition);
-    }
-
-    void EnemyController::moveRight() {
-        sf::Vector2f currentPosition = model->getPosition();
-        currentPosition.x += model->getMovementSpeed() * ServiceLocator::getInstance()->getTimeService()->getDeltaTime();
-        model->setPosition(currentPosition);
-    }
-
-    void EnemyController::moveDown() {
-        sf::Vector2f currentPosition = model->getPosition();
-        currentPosition.y += model->getMovementSpeed() * ServiceLocator::getInstance()->getTimeService()->getDeltaTime();
-        model->setPosition(currentPosition);
+    EnemyConfig::EnemyType EnemyController::getEnemyType() const {
+        return enemy_model->getEnemyType();
     }
 }

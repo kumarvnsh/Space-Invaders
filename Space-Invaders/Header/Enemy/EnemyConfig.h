@@ -2,7 +2,6 @@
 #define ENEMY_CONFIG_H
 
 namespace EnemyConfig {
-
     enum class EnemyState {
         PATROLLING,
         ATTACKING,
@@ -12,7 +11,9 @@ namespace EnemyConfig {
     enum class EnemyType {
         GRUNT,
         BOSS,
-        MINION
+        MINION,
+        ZAPPER,
+        SUBZERO
     };
 
     enum class EnemyDirection {
@@ -21,7 +22,6 @@ namespace EnemyConfig {
         UP,
         DOWN
     };
-
 }
 
 #endif // ENEMY_CONFIG_H

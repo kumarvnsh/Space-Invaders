@@ -9,7 +9,7 @@ int main() {
 
     // Get the game window
     sf::RenderWindow* gameWindow = serviceLocator->getGraphicService()->getGameWindow();
-    gameWindow->setVerticalSyncEnabled(true);  // Enable VSync
+    gameWindow->setVerticalSyncEnabled(true);
 
     // Initialize Enemy Service
     serviceLocator->getEnemyService()->initialize();

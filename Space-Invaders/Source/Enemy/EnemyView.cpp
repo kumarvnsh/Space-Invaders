@@ -1,39 +1,50 @@
-// EnemyView.cpp
-#include "../../Header/Enemy/EnemyView.h"
-#include "../../Header/Enemy/EnemyController.h"
+#include "../../header/Enemy/EnemyView.h"
+#include "../../Header/ServiceLocator/ServiceLocator.h"
+#include "../../header/Enemy/EnemyController.h" 
+#include <iostream>
 
 namespace Enemy {
-    EnemyView::EnemyView(EnemyController* controller)
-        : controller(controller), texturePath("assets/textures/zapper.png"), width(50.0f), height(50.0f) {}
+    EnemyView::EnemyView(EnemyController* controller) : enemy_controller(controller) {
+        game_window = ServiceLocator::getInstance()->getGraphicService()->getGameWindow();
+    }
 
     EnemyView::~EnemyView() {}
 
     void EnemyView::initialize() {
-        loadTexture();
-        initializeSprite();
-        scaleSprite();
+        initializeEnemySprite(enemy_controller->getEnemyType());
     }
 
-    void EnemyView::loadTexture() {
-        if (!texture.loadFromFile(texturePath)) {
-            // Handle error
+    void EnemyView::initializeEnemySprite(EnemyConfig::EnemyType type) {
+        switch (type) {
+        case EnemyConfig::EnemyType::SUBZERO:
+            if (enemy_texture.loadFromFile(subzero_texture_path)) {
+                enemy_sprite.setTexture(enemy_texture);
+                scaleEnemySprite();
+            }
+            break;
+        case EnemyConfig::EnemyType::ZAPPER:
+            if (enemy_texture.loadFromFile(zapper_texture_path)) {
+                enemy_sprite.setTexture(enemy_texture);
+                scaleEnemySprite();
+            }
+            break;
+        default:
+            break;
         }
     }
 
-    void EnemyView::initializeSprite() {
-        sprite.setTexture(texture);
-        sprite.setPosition(controller->getEnemyPosition());
-    }
-
-    void EnemyView::scaleSprite() {
-        sprite.setScale(width / texture.getSize().x, height / texture.getSize().y);
-    }
-
-    void EnemyView::render(sf::RenderWindow& window) {
-        window.draw(sprite);
+    void EnemyView::scaleEnemySprite() {
+        enemy_sprite.setScale(
+            static_cast<float>(enemy_sprite_width) / enemy_sprite.getTexture()->getSize().x,
+            static_cast<float>(enemy_sprite_height) / enemy_sprite.getTexture()->getSize().y
+        );
     }
 
     void EnemyView::update() {
-        sprite.setPosition(controller->getEnemyPosition());
+        enemy_sprite.setPosition(enemy_controller->getEnemyPosition());
+    }
+
+    void EnemyView::render() {
+        game_window->draw(enemy_sprite);
     }
 }

@@ -15,15 +15,15 @@ namespace Enemy {
         void update();
         void render(sf::RenderWindow& window);
 
-        void spawnEnemy();
+        //void spawnEnemy();
 
     private:
         std::vector<EnemyController*> enemyList;
         const float spawnInterval = 3.0f;
         float spawnTimer;
 
-        void updateSpawnTimer();
-        void processEnemySpawn();
+        //void updateSpawnTimer();
+        //void processEnemySpawn();
         void destroy();
     };
 }
