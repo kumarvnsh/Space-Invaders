@@ -1,19 +1,36 @@
 #include "../../Header/Enemy/EnemyModel.h"
+#include "../../Header/Enemy/EnemyConfig.h"
+
 
 namespace Enemy {
-    EnemyModel::EnemyModel()
-        : referencePosition(0, 0), enemyPosition(0, 0), movementDirection(MovementDirection::RIGHT) {}
 
-    void EnemyModel::initialize() {
-        movementDirection = MovementDirection::RIGHT;
-        enemyPosition = referencePosition;
+    EnemyModel::EnemyModel() : movementSpeed(200.0f), enemyType(EnemyConfig::EnemyType::GRUNT), movementDirection(EnemyConfig::EnemyDirection::RIGHT) {
+        reset();
     }
 
-    sf::Vector2f EnemyModel::getEnemyPosition() const {
+    EnemyModel::EnemyModel(EnemyConfig::EnemyType type)
+        : movementSpeed(200.0f), enemyType(type), movementDirection(EnemyConfig::EnemyDirection::RIGHT) {
+        reset();
+    }
+
+    void EnemyModel::reset() {
+        // Reset logic, e.g., resetting position or state
+        enemyPosition = sf::Vector2f(0, 0);
+        movementDirection = EnemyConfig::EnemyDirection::RIGHT;
+        enemyState = EnemyConfig::EnemyState::PATROLLING;
+    }
+
+    void EnemyModel::initialize() {
+        movementDirection = EnemyConfig::EnemyDirection::RIGHT;
+        enemyPosition = referencePosition;
+        enemyState = EnemyConfig::EnemyState::PATROLLING;
+    }
+
+    sf::Vector2f EnemyModel::getPosition() const {
         return enemyPosition;
     }
 
-    void EnemyModel::setEnemyPosition(const sf::Vector2f& position) {
+    void EnemyModel::setPosition(const sf::Vector2f& position) {
         enemyPosition = position;
     }
 
@@ -25,11 +42,11 @@ namespace Enemy {
         referencePosition = position;
     }
 
-    MovementDirection EnemyModel::getMovementDirection() const {
+    EnemyConfig::EnemyDirection EnemyModel::getMovementDirection() const {
         return movementDirection;
     }
 
-    void EnemyModel::setMovementDirection(MovementDirection direction) {
+    void EnemyModel::setMovementDirection(EnemyConfig::EnemyDirection direction) {
         movementDirection = direction;
     }
 
@@ -45,7 +62,31 @@ namespace Enemy {
         return verticalTravelDistance;
     }
 
-    float EnemyModel::getEnemyMovementSpeed() const {
-        return enemyMovementSpeed;
+    float EnemyModel::getMovementSpeed() const {
+        return movementSpeed;
+    }
+
+    EnemyConfig::EnemyState EnemyModel::getEnemyState() const {
+        return enemyState;
+    }
+
+    void EnemyModel::setEnemyState(EnemyConfig::EnemyState state) {
+        enemyState = state;
+    }
+
+    EnemyConfig::EnemyType EnemyModel::getEnemyType() const {
+        return enemyType;
+    }
+
+    void EnemyModel::setEnemyType(EnemyConfig::EnemyType type) {
+        enemyType = type;
+    }
+
+    void EnemyModel::setScreenDimensions(const sf::Vector2u& dimensions) {
+        screenDimensions = dimensions;
+    }
+
+    sf::Vector2u EnemyModel::getScreenDimensions() const {
+        return screenDimensions;
     }
 }

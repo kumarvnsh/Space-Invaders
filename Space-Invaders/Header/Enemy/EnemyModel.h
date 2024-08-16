@@ -2,44 +2,55 @@
 #define ENEMY_MODEL_H
 
 #include <SFML/Graphics.hpp>
+#include "EnemyConfig.h"
 
 namespace Enemy {
-    enum class MovementDirection {
-        LEFT,
-        RIGHT,
-        DOWN,
-    };
 
     class EnemyModel {
     public:
         EnemyModel();
+        EnemyModel(EnemyConfig::EnemyType type);
 
         void initialize();
-        sf::Vector2f getEnemyPosition() const;
-        void setEnemyPosition(const sf::Vector2f& position);
+        void reset();
+        sf::Vector2f getPosition() const;
+        void setPosition(const sf::Vector2f& position);
 
         sf::Vector2f getReferencePosition() const;
         void setReferencePosition(const sf::Vector2f& position);
 
-        MovementDirection getMovementDirection() const;
-        void setMovementDirection(MovementDirection direction);
+        EnemyConfig::EnemyDirection getMovementDirection() const;
+        void setMovementDirection(EnemyConfig::EnemyDirection direction);
 
-        // Provide public getters for private members
         const sf::Vector2f& getLeftMostPosition() const;
         const sf::Vector2f& getRightMostPosition() const;
         float getVerticalTravelDistance() const;
-        float getEnemyMovementSpeed() const;
+        float getMovementSpeed() const;
+
+        EnemyConfig::EnemyState getEnemyState() const;
+        void setEnemyState(EnemyConfig::EnemyState state);
+
+        EnemyConfig::EnemyType getEnemyType() const;
+        void setEnemyType(EnemyConfig::EnemyType type);
+
+        void setScreenDimensions(const sf::Vector2u& dimensions);
+        sf::Vector2u getScreenDimensions() const;
 
     private:
         sf::Vector2f referencePosition;
         sf::Vector2f enemyPosition;
-        MovementDirection movementDirection;
+        EnemyConfig::EnemyDirection movementDirection;
 
         const sf::Vector2f leftMostPosition = sf::Vector2f(50.f, 950.f);
         const sf::Vector2f rightMostPosition = sf::Vector2f(1800.f, 950.f);
         const float verticalTravelDistance = 100.f;
-        const float enemyMovementSpeed = 250.0f;
+        const float movementSpeed = 250.0f;
+
+        EnemyConfig::EnemyState enemyState;
+        EnemyConfig::EnemyType enemyType;
+        sf::Vector2u screenDimensions;
     };
+
 }
 
 #endif // ENEMY_MODEL_H
